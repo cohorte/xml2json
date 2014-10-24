@@ -69,10 +69,14 @@ def main():
     # generate cohorte file
     json_data = json.loads(out)
     artifactId = json_data["metadata"]["artifactId"]
+    accepted_extensions = ['zip', 'tar.gz', 'jar']
     for i in json_data["metadata"]["versioning"]["snapshotVersions"]["snapshotVersion"]:
-        if 'classifier' in i.keys():
-            suffix = i["classifier"]
-            name = artifactId + "-" + suffix
+        if any(i["extension"] in s for s in accepted_extensions):
+            if i["extension"] == "jar":
+                suffix = ""
+            else:
+                suffix = "-" + i["classifier"]
+            name = artifactId + suffix
             if name in final["snapshots"].keys():
                 # add file only
                 extension = i["extension"]
@@ -88,7 +92,7 @@ def main():
                 final["snapshots"][name]["version"] = version
                 final["snapshots"][name]["files"] = {}
                 final["snapshots"][name]["files"][extension] = url_path + "/" + file_name
-   
+                
     if (options.out):
         file = open(options.out, 'w')
         file.write(json.dumps(final, sort_keys=True, indent=2, separators=(',', ': ')))
