@@ -81,13 +81,13 @@ def main():
                 # add file only
                 extension = i["extension"]
                 version = i["value"]
-                file_name = artifactId + "-" + version + "-" + suffix + "." + extension       
+                file_name = artifactId + "-" + version + suffix + "." + extension       
                 final["snapshots"][name]["files"][extension] = url_path + "/" + file_name                
             else:
                 # create new entry              
                 extension = i["extension"]
                 version = i["value"]
-                file_name = artifactId + "-" + version + "-" + suffix + "." + extension            
+                file_name = artifactId + "-" + version + suffix + "." + extension            
                 final["snapshots"][name] = {}
                 final["snapshots"][name]["version"] = version
                 final["snapshots"][name]["files"] = {}
